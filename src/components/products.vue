@@ -100,7 +100,8 @@ export default {
   methods:{
       itemInformation(id,name,colorIndex){
           console.log( id, name, this.productColors[colorIndex]);
-      }
+        this.$store.commit('add_cart_to_local',id)
+      },
   }
 };
 </script>
