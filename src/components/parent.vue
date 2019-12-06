@@ -32,7 +32,7 @@ methods: {
     }
 },
 created(){
-    
+
 }
 }
 </script>
