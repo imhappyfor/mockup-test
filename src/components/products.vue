@@ -31,7 +31,7 @@
                     </div>
                     <div :style="'height: 32px; width: 32px;; border-radius: 5px; margin-right: 12px;background-color:' + product['item-available-colors'][2]">
                         <button style="width: 32px ; height:32px; border: none; background-color: rgba(0,0,0,0)"
-                        @click="itemInformation(product['item-id'],product['item-name'],0)"
+                        @click="itemInformation(product['item-id'],product['item-name'],2)"
                         ></button>
                     </div>
                     
@@ -57,10 +57,10 @@
 <script>
 export default {
   name: "products",
-
   data() {
     return {
         productColors : ["#143061", "#81396F", "#F6437D"],
+        selectedItem: '',
         products: [
             {
             url: require("../assets/alex-holyoake-ns-zrk_O-z4-unsplash.jpg"),
@@ -99,8 +99,8 @@ export default {
   },
   methods:{
       itemInformation(id,name,colorIndex){
-          console.log( id, name, this.productColors[colorIndex]);
-        this.$store.commit('add_cart_to_local',id)
+        let color = this.productColors[colorIndex]
+        this.$store.commit('add_cart_to_local',{id,name,color})
       },
   }
 };

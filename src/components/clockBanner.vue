@@ -11,12 +11,18 @@
           >
             <!-- <div v-for="(increment,index) in increments" :key="increment" style="padding-left: 10px" > -->
             <div class="numbers" style="display: flex; flex-direction: column;">
-              <p>{{clock[index]}}</p>
+              <p v-if="index == 0">{{days}}</p>
+              <p v-if="index == 1">{{hours}}</p>
+              <p v-if="index == 2">{{minutes}}</p>
+              <p v-if="index == 3">{{seconds}}</p>
+              
+              
             </div>
             <div>{{increment}}</div>
           </div>
         </div>
       </div>
+      
       <!-- FIX THIS BEFORE SENDING -->
       <div @click="headerClose" id="close">
         <img src="../assets/White Close.svg" alt />
@@ -31,14 +37,67 @@ export default {
   
   data() {
     return {
-      clock: ["00", "00", "00", "00"],
-      increments: ["days", "hours", "minutes", "seconds"]
+      clock: [],
+      increments: ["days", "hours", "minutes", "seconds"],
+      starttime:"Dec 5, 2019 15:37:25" ,
+      endtime:"Dec 9, 2019 16:37:25",
+      start: "",
+      end: "",
+      interval: "",
+      days:"",
+      minutes:"",
+      hours:"",
+      seconds:"",
+      message:"",
+      statusType:"",
+      statusText: "",
     };
   },
   methods: {
     headerClose() {
       this.$emit('BannerOpen', false)
+    },
+    timerCount(start,end){
+        // Get todays date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now an the count down date
+        var distance = start - now;
+        var passTime =  end - now;
+
+        if(distance < 0 && passTime < 0){
+            clearInterval(this.interval);
+            return;
+
+        }else if(distance < 0 && passTime > 0){
+            this.calcTime(passTime);
+
+
+        } else if( distance > 0 && passTime > 0 ){
+            this.calcTime(distance); 
+
+        }
+    },
+    calcTime(dist){
+      // Time calculations for days, hours, minutes and seconds
+        this.days = Math.floor(dist / (1000 * 60 * 60 * 24));
+        this.hours = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        this.minutes = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+        this.seconds = Math.floor((dist % (1000 * 60)) / 1000);
+        // this.clock.push( this.days,this.hours,this.minutes,this.seconds)
+
     }
+  },
+  mounted(){
+       this.start = new Date(this.starttime).getTime();
+    this.end = new Date(this.endtime).getTime();
+    console.log(this.start,this.end)
+    // Update the count down every 1 second
+    this.timerCount(this.start,this.end);
+    this.interval = setInterval(() => {
+        this.timerCount(this.start,this.end);
+        console.log('test')
+    }, 1000);
   }
 };
 </script>
