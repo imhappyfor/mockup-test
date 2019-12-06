@@ -28,6 +28,7 @@
 <script>
 export default {
   name: "clockBanner",
+  
   data() {
     return {
       clock: ["00", "00", "00", "00"],
@@ -36,7 +37,7 @@ export default {
   },
   methods: {
     headerClose() {
-      alert("you have cliked the button to close the header");
+      this.$emit('BannerOpen', false)
     }
   }
 };
@@ -45,6 +46,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .header {
+  
   height: 50px;
   background-color: #1f3162;
   line-height: 31px;
@@ -112,8 +114,10 @@ export default {
   margin-left: auto;
   align-content: center;
   justify-items: center;
-  padding-right: 10px;
-  padding-bottom: 2px;
+  padding-right: 31px;
+  padding-top: 19px;
+  width: 12px;
+  height: 12px;
   cursor: pointer;
 }
 #close:hover {
